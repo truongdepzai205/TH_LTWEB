@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            border: #007bff 1px solid;
+        }
+        header {
+            background-color: #222;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header > div:first-child {
+            display: flex;
+            align-items: center;
+        }
+        header strong {
+            margin-right: 20px;
+        }
+        header nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+        }
+        .search-box input {
+            padding: 5px;
+            margin-right: 5px;
+        }
+        main {
+            padding: 20px;
+        }
+        h2 {
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .add-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            float: right;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .edit-btn {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        .form-header {
+            background-color: #1da1f2;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            margin: -20px -20px 20px -20px;
+            position: relative;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .gender-group {
+            margin-top: 5px;
+        }
+        .gender-group label {
+            display: block;
+        }
+        .gender-group input {
+            margin-right: 10px;
+        }
+        .buttons {
+            text-align: right;
+        }
+        .save {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cancel {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .gender-group .options {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Căn trái hoàn toàn */
+}
+.gender-group .options label {
+    margin-right: 10px; /* Giữ khoảng cách giữa Male và Female */
+    margin-bottom: 0;
+    font-weight: normal;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <strong>HR Management</strong>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+            <button>Search</button>
+        </div>
+    </header>
+
+    <main>
+        <h2>Employee</h2>
+        <a href="#" class="add-btn">+ Add</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Position</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Fatima Beatriz</td>
+                    <td>Fatima Beatriz@gmail.com</td>
+                    <td>0985674321</td>
+                    <td>Staff</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Gabriel Hanna</td>
+                    <td>Gabriel Hanna@gmail.com</td>
+                    <td>0353674231</td>
+                    <td>Staff</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Charles Diya</td>
+                    <td>Charles Diya@gmail.com</td>
+                    <td>0347658833</td>
+                    <td>Staff</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Frank Lamdo</td>
+                    <td>Frank Lamdo@gmail.com</td>
+                    <td>0975444768</td>
+                    <td>Manager</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Louis Tom</td>
+                    <td>Louis Tom@gmail.com</td>
+                    <td>0789568223</td>
+                    <td>Staff</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="overlay" id="overlay"></div>
+        <div class="form-container" id="employeeForm">
+            <div class="form-header">
+                New Employee
+                <span class="close-btn" style="position: absolute; right: 10px; cursor: pointer; font-size: 18px;">✖</span>
+            </div>
+            <div class="form-group" style="display: flex; justify-content: space-between;">
+                <div style="width: 48%;">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div style="width: 48%;">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email">
+                </div>
+            </div>
+            <div class="form-group" style="display: flex; justify-content: space-between;">
+                <div style="width: 48%;">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div style="width: 48%;">
+                    <label for="position">Position</label>
+                    <select id="position" name="position">
+                        <option value="" selected>-- Select Position --</option>
+                        <option value="staff">Staff</option>
+                        <option value="manager">Manager</option>
+                        <option value="ceo">CEO</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group gender-group">
+              <label>Sex</label>
+              <div class="options">
+                  <input type="radio" id="male" name="sex" value="male">
+                  <label for="male">Male</label>
+                  <input type="radio" id="female" name="sex" value="female">
+                  <label for="female">Female</label>
+              </div>
+          </div>
+            <div class="buttons">
+                <button class="cancel">Cancel</button>
+                <button class="save">Save</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.querySelector('.add-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('employeeForm').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.getElementById('employeeForm').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('position').value = '';
+            document.querySelectorAll('input[name="sex"]').forEach(radio => radio.checked = false);
+        });
+
+        document.querySelector('.cancel').addEventListener('click', function() {
+            document.getElementById('employeeForm').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('position').value = '';
+            document.querySelectorAll('input[name="sex"]').forEach(radio => radio.checked = false);
+        });
+
+        document.querySelector('.save').addEventListener('click', function() {
+            alert('Employee data saved!');
+            document.getElementById('employeeForm').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('position').value = '';
+            document.querySelectorAll('input[name="sex"]').forEach(radio => radio.checked = false);
+        });
+    </script>
+</body>
+</html>
