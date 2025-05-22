@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Đăng Ký AJAX Cải Tiến</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('pngtree-3d-rendering-of-online-sports-betting-concept-image_3831784.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 30px;
+    }
+    .form-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 30px 50px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    input {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 15px;
+      height: 18px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      margin: auto;
+    }
+    button:hover:not(:disabled) {
+      background-color: #218838;
+    }
+    button:disabled {
+      background-color: #94d3a2;
+      cursor: not-allowed;
+    }
+    #message {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Đăng Ký</h2>
+    <form id="registerForm" novalidate>
+      <input type="text" name="name" placeholder="Họ tên" />
+      <div class="error" id="error-name"></div>
+
+      <input type="email" name="email" placeholder="Email" />
+      <div class="error" id="error-email"></div>
+
+      <input type="password" name="password" placeholder="Mật khẩu" />
+      <div class="error" id="error-password"></div>
+
+      <button type="submit">Đăng ký</button>
+    </form>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      const $form = $("#registerForm");
+      const $btn = $form.find("button[type='submit']");
+      const $message = $("#message");
+
+      function validateEmail(email) {
+        // Kiểm tra định dạng email cơ bản
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+      }
+
+      $form.on("submit", function(e) {
+        e.preventDefault();
+
+        // Reset lỗi và thông báo
+        $(".error").text("");
+        $message.hide();
+
+        // Lấy dữ liệu form
+        const name = $.trim($("input[name='name']").val());
+        const email = $.trim($("input[name='email']").val());
+        const password = $.trim($("input[name='password']").val());
+
+        let valid = true;
+
+        // Validate Họ tên
+        if (name === "") {
+          $("#error-name").text("Vui lòng nhập họ tên.");
+          valid = false;
+        }
+
+        // Validate Email
+        if (email === "") {
+          $("#error-email").text("Vui lòng nhập email.");
+          valid = false;
+        } else if (!validateEmail(email)) {
+          $("#error-email").text("Email không đúng định dạng.");
+          valid = false;
+        }
+
+        // Validate Mật khẩu
+        if (password === "") {
+          $("#error-password").text("Vui lòng nhập mật khẩu.");
+          valid = false;
+        } else if (password.length < 6) {
+          $("#error-password").text("Mật khẩu phải có ít nhất 6 ký tự.");
+          valid = false;
+        }
+
+        if (!valid) {
+          // Tự động focus vào ô đầu tiên có lỗi để người dùng dễ sửa
+          if ($("#error-name").text()) {
+            $("input[name='name']").focus();
+          } else if ($("#error-email").text()) {
+            $("input[name='email']").focus();
+          } else if ($("#error-password").text()) {
+            $("input[name='password']").focus();
+          }
+          return;
+        }
+
+        // Vô hiệu nút gửi để tránh gửi nhiều lần
+        $btn.prop("disabled", true).text("Đang gửi...");
+
+        // Gửi AJAX (ví dụ dùng JSONPlaceholder)
+        $.ajax({
+          url: "https://jsonplaceholder.typicode.com/posts",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ name, email, password }),
+          success: function() {
+            $message
+              .text("Đăng ký thành công!")
+              .css("color", "green")
+              .fadeIn()
+              .delay(2000)
+              .fadeOut();
+
+            $form[0].reset();
+          },
+          error: function() {
+            $message
+              .text("Lỗi máy chủ. Vui lòng thử lại!")
+              .css("color", "red")
+              .fadeIn()
+              .delay(2000)
+              .fadeOut();
+          },
+          complete: function() {
+            $btn.prop("disabled", false).text("Đăng ký");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
